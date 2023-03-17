@@ -1,0 +1,36 @@
+Godot AI Notes:
+
+Generic movement w/ Nav Agent:
+	nav_agent.set_target_position(target.global_position)
+	var current_pos = global_position
+	var next_pos = nav_agent.get_next_path_position()
+	
+	velocity = (next_pos - current_pos).normalized() * speed
+	rotation.y = new_orientation(rotation.y)
+	velocity.y = 0 # If ground based enemy that shouldn't be in the air
+	
+	move_and_slide()
+
+
+
+Generic Movement w/o Nav Agent:
+	var distance = target.global_position - global_position
+	var direction = distance.normalized()
+	var target_velocity = direction * max_speed
+	velocity = velocity.lerp(target_velocity, acceleration)
+	move_and_slide()
+	
+	
+
+Path prediction:
+	var prediction = {some time for prediction}
+	var target_position = target.global_position + (target.veloity * prediction)
+
+
+
+Face in movement dir:
+	func new_orientation(current) -> float:
+		if velocity.length() > 0:
+			return atan2(-velocity.x, -velocity.z)
+		else:
+			return current

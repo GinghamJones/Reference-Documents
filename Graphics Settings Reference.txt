@@ -1,0 +1,55 @@
+///////////////////////////Graphics Settings/////////////////////////////////////
+
+Resolution:
+	Create dictionary of available resolutions
+	DisplayServer.window_set_size(resolution_dictionary[key])
+	
+MSAA:
+	get_viewport().msaa_3d = value
+		0 = disabled, 1 = 2x, 2 = 4x, 3 = 8x
+		
+Window Mode:
+	DisplayServer.window_set_mode(value)
+		0 = windowed, 1 = minimized, 2 = maximized, 3 = fullscreen, 4 = exclusive_fullscreen
+		
+TAA:
+	get_viewport().use_taa = bool
+	
+	
+	
+*Below, "world_environment" is a reference to the WorldEnvironment node in a scene*
+
+Global Illumination:
+	world_environment.environment.sdfgi_enabled = bool
+	RenderingServer.environment_set_sdfgi_frames_to_converge(value)
+		0 = 5, 1 = 10, 2 = 15, 3 = 20, 4 = 25, 5 = 30
+	RenderingServer.environment_set_sdfgi_ray_count(value)
+		0 = 8, 1 = 16, 2 = 32, 3 = 64, 4 = 96, 5 = 128
+	RenderingServer.environment_set_sdfgi_frames_to_update_light(value)
+		0 = 1, 1 = 2, 2 = 4, 3 = 8, 4 = 16
+		*Lower values for this are more resource intensive*
+
+SSR:
+	world_environment.environment.ssr_enabled = bool
+	RenderingServer.environment_set_ssr_roughness_quality(value)
+		0 = disabled, 1 = low, 2 = medium, 3 = high
+
+SSAO:
+	world_environment.environment.ssao_enabled = bool
+	RenderingServer.environment_set_ssao_quality(quality = value, half_size = true, adaptive_target = 0.5, blur_passes = 2, fadeout_from = 50, fadeout_to = 300)
+		*Here I only changed the "quality_value" parameter and kept the other parameters at default. You may want to play with the values for funziez*
+		quality: 0 = very_low, 1 = low, 2 = medium, 3 = high, 4 = ultra(Custom: *interacts with adaptive_target*)
+		
+SSIL:
+	world_environment.environment.ssil_enabled = bool
+	RenderingServer.environment_set_ssil_quality(quality = value, half_size = true, adaptive_target = 0.5, blur_passes = 4, fadeout_from = 50, fadeout_to = 300)
+		*Parameters are same as SSAO*
+		
+Shadows:
+	RenderingServer.directional_soft_shadow_filter_set_quality(value)
+	RenderingServer.positional_soft_shadow_filter_set_quality(value)
+		0 = hard, 1 = soft_very_low, 2 = soft_low, 3 = soft_medium, 4 = soft_high, 5 = soft_ultra, 6 = soft_max
+	
+	var lights : Array = get_tree().get_nodes_in_group("Lights")
+	for light in lights:
+		light.shadow_enabled = bool
